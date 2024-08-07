@@ -1,3 +1,4 @@
+import 'package:controle_patrimonial/GlobalDioConfig.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
@@ -15,7 +16,7 @@ class _CreateUsuarioScreenState extends State<CreateUsuarioScreen> {
   @override
   void initState() {
     super.initState();
-    _dio = Dio();
+    _dio = GlobalDioConfig.instance;
   }
 
   Future<void> _createUsuario() async {
@@ -25,14 +26,14 @@ class _CreateUsuarioScreenState extends State<CreateUsuarioScreen> {
 
     try {
       var response = await _dio.post(
-        'http://192.168.0.121:8080/usuario/create',
+        '/usuario/create',
         data: {
           'nome': nome,
           'email': email,
           'senha': senha,
         },
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('Usuario created successfully.');
       } else {
         print('Failed to create pessoa. Status code: ${response.statusCode}');

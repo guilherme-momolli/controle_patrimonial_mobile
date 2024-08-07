@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:controle_patrimonial/GlobalDioConfig.dart';
 
 class ListarUsuarioScreen extends StatefulWidget {
   @override
@@ -13,23 +14,17 @@ class _ListarUsuarioScreenState extends State<ListarUsuarioScreen> {
   @override
   void initState() {
     super.initState();
-    _dio = Dio();
-    _dio.options.headers["Access-Control-Allow-Origin"] = "*";
-    _dio.options.headers["Access-Control-Allow-Credentials"] = true;
-    _dio.options.headers["Access-Control-Allow-Headers"] =
-        "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale";
-    _dio.options.headers["Access-Control-Allow-Methods"] =
-        "GET, HEAD, POST, OPTIONS";
-    //_getUsuario();
+    _dio = GlobalDioConfig.instance;
+    _getUsuario();
     _getNewUsuario();
   }
 
   Future<void> _deleteUsuario(int id) async {
     try {
       var response = await _dio.delete(
-        'http://192.168.0.121:8080/usuario/delete/$id',
+        '/usuario/delete/$id',
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 204) {
         print('Pessoa deleted successfully.');
       } else {
         print('Failed to delete pessoa. Status code: ${response.statusCode}');
@@ -41,7 +36,7 @@ class _ListarUsuarioScreenState extends State<ListarUsuarioScreen> {
 
   Future<void> _getUsuario() async {
     try {
-      var response = await _dio.get('http://192.168.0.121:8080/usuario/list');
+      var response = await _dio.get('/usuario/list');
       if (response.statusCode == 200) {
         setState(() {
           usuarios = response.data;
@@ -56,7 +51,7 @@ class _ListarUsuarioScreenState extends State<ListarUsuarioScreen> {
 
   Future<void> _getNewUsuario() async {
     try {
-      final response = await _dio.get('http://192.168.0.121:8080/usuario/list',
+      final response = await _dio.get('/usuario/list',
           options: Options(headers: {
             'Accept': 'application/json',
           }));
@@ -66,7 +61,7 @@ class _ListarUsuarioScreenState extends State<ListarUsuarioScreen> {
   }
 
   Future<List<dynamic>> _fetchUsuarios() async {
-    var response = await _dio.get('http://192.168.0.121:8080/usuario/list');
+    var response = await _dio.get('/usuario/list');
     return response.data;
   }
 
@@ -96,7 +91,9 @@ class _ListarUsuarioScreenState extends State<ListarUsuarioScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/update_usuario');
+                        },
                         child: const Text('Editar'),
                       ),
                       SizedBox(width: 8),

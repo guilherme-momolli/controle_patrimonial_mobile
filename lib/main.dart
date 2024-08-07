@@ -1,9 +1,13 @@
+import 'package:controle_patrimonial/list_hardware.dart';
 import 'package:controle_patrimonial/list_usuario.dart';
+import 'package:controle_patrimonial/update_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:controle_patrimonial/create_usuario.dart';
+import 'package:controle_patrimonial/GlobalDioConfig.dart';
 
 void main() {
+  GlobalDioConfig.configureDio();
   runApp(const MyApp());
 }
 
@@ -21,7 +25,9 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(title: 'Controle Patrimonial'),
       routes: {
         '/list_usuario': (context) => ListarUsuarioScreen(),
+        '/list_hardware': (context) => ListarHardwareScreen(),
         '/create_usuario': (context) => CreateUsuarioScreen(),
+        '/update_usuario': (context) => UpdateUsuarioScreen()
       },
     );
   }
@@ -39,19 +45,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
+
   late Dio _dio;
 
   @override
   void initState() {
     super.initState();
-    _dio = Dio();
-    //dio.options.method = "POST";
-    _dio.options.headers["Access-Control-Allow-Origin"] = "*";
-    _dio.options.headers["Access-Control-Allow-Credentials"] = true;
-    _dio.options.headers["Access-Control-Allow-Headers"] =
-        "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale";
-    _dio.options.headers["Access-Control-Allow-Methods"] =
-        "GET, HEAD, POST, OPTIONS";
+    _dio = GlobalDioConfig.instance;
   }
 
   @override
@@ -62,20 +62,22 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  Future<void> _login() async {
+  Future<bool> _login() async {
     String email = _emailController.text;
     String senha = _senhaController.text;
     try {
-      var response = await _dio.post('http://192.168.0.121:8080/usuario/login',
-          data: {'email': email, 'senha': senha});
+      var response = await _dio
+          .post('/usuario/login', data: {'email': email, 'senha': senha});
       if (response.statusCode == 200) {
         print('Login bem sucedido.');
+        return true;
       } else {
         print('Falha no login: ${response.statusCode}');
+        return false;
       }
-      print(response.data);
     } catch (e) {
       print(e);
+      return false;
     }
   }
 
@@ -111,7 +113,15 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _login,
+              onPressed: () async {
+                bool loginSuccess = await _login();
+                if (loginSuccess) {
+                  Navigator.pushNamed(context, '/list_hardware');
+                } else {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('Falha no login')));
+                }
+              },
               child: Text('Login'),
             ),
             SizedBox(height: 16),
