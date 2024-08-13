@@ -52,9 +52,11 @@ class _ListarUsuarioScreenState extends State<ListarUsuarioScreen> {
   Future<void> _getNewUsuario() async {
     try {
       final response = await _dio.get('/usuario/list',
-          options: Options(headers: {
-            'Accept': 'application/json',
-          }));
+          options: Options(headers: {'Accept': 'application/json'}));
+      setState(() {
+        usuarios =
+            response.data;
+      });
     } catch (e) {
       print(e);
     }

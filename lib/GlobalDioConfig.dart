@@ -4,7 +4,7 @@ class GlobalDioConfig {
   static final Dio _instance = Dio();
 
   static void configureDio() {
-    _instance.options.baseUrl = 'http://192.168.0.116:8080';
+    _instance.options.baseUrl = 'http://192.168.0.117:8080';
     _instance.options.headers["Access-Control-Allow-Origin"] = "*";
     _instance.options.headers["Access-Control-Allow-Credentials"] = true;
     _instance.options.headers["Access-Control-Allow-Headers"] =

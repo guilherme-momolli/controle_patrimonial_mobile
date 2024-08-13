@@ -15,6 +15,7 @@ class _ListarHardwareScreenState extends State<ListarHardwareScreen> {
   void initState() {
     super.initState();
     _dio = GlobalDioConfig.instance;
+    _getNewHardware();
     _getHardware();
   }
 
@@ -47,8 +48,19 @@ class _ListarHardwareScreenState extends State<ListarHardwareScreen> {
     }
   }
 
+  Future<void> _getNewHardware() async {
+    try {
+      final response = await _dio.get('/hardware/list',
+          options: Options(headers: {
+            'Accept': 'application/json',
+          }));
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<List<dynamic>> _fetchHardwares() async {
-    var response = await _dio.get('http://192.168.0.121:8080/hardware/list');
+    var response = await _dio.get('/hardware/list');
     return response.data;
   }
 

@@ -37,7 +37,7 @@ class _UpdateUsuarioScreenState extends State<UpdateUsuarioScreen> {
       if (response.statusCode == 201) {
         print('Usuario created successfully.');
       } else {
-        print('Failed to create pessoa. Status code: ${response.statusCode}');
+        print('Failed to update pessoa. Status code: ${response.statusCode}');
       }
     } catch (e) {
       print(e);
@@ -48,7 +48,7 @@ class _UpdateUsuarioScreenState extends State<UpdateUsuarioScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Pessoa'),
+        title: Text('Update Pessoa'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -62,7 +62,6 @@ class _UpdateUsuarioScreenState extends State<UpdateUsuarioScreen> {
                 border: OutlineInputBorder(),
               ),
             ),
-          
             SizedBox(height: 16),
             TextField(
               controller: _emailController,
@@ -84,7 +83,7 @@ class _UpdateUsuarioScreenState extends State<UpdateUsuarioScreen> {
               onPressed: () {
                 //_updateUsuario();
               },
-              child: Text('Create'),
+              child: Text('Update'),
             ),
           ],
         ),
