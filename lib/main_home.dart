@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:controle_patrimonial/GlobalDioConfig.dart'; // Certifique-se de que este arquivo existe e está correto
+import 'package:controle_patrimonial/GlobalDioConfig.dart';
 
 class MainHomeScreen extends StatefulWidget {
+  const MainHomeScreen({Key? key}) : super(key: key); // Added key parameter
+
   @override
   _MainHomeScreenState createState() => _MainHomeScreenState();
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen> {
-  late Dio _dio;
   int _selectedIndex = 0;
   static const List<Widget> _screens = <Widget>[
     Text('Seja bem vindo'),
@@ -25,14 +26,15 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
 
     switch (_selectedIndex) {
       case 0:
-        // Navegue para a primeira tela
         break;
       case 1:
-        // Navegue para a segunda tela
+        Navigator.pushNamed(context, '/list_usuario');
         break;
       case 2:
+        Navigator.pushNamed(context, '/list_hardware');
         break;
       case 3:
+        // Navega para a tela de Nota Fiscal
         break;
       default:
         break;
@@ -40,16 +42,10 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _dio = GlobalDioConfig.instance;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Barra de Botões com Ícones'),
+        title: const Text('Barra de Botões com Ícones'), // Made const
       ),
       body: Center(
         child: _screens[_selectedIndex],
@@ -60,7 +56,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
             icon: Icon(FontAwesomeIcons.house),
             label: 'Principal',
           ),
-          // Adicione mais itens aqui conforme necessário
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.user),
             label: 'Usuário',
@@ -70,7 +65,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
             label: 'Hardware',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.paperclip),
+            icon: Icon(FontAwesomeIcons.pager),
             label: 'Nota Fiscal',
           ),
         ],
