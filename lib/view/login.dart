@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:controle_patrimonial/GlobalDioConfig.dart';
+import 'package:controle_patrimonial/global_assets/global_dio_config.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -100,12 +100,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: const Text('Cadastrar'),
                 ),
-                Spacer(), // Adiciona outro Spacer para ocupar o máximo de espaço disponível
+                Spacer(),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/list_usuario');
+                    Navigator.pushNamed(context, '/main_home');
                   },
-                  child: const Text('Listar'),
+                  child: const Text('Entrada Direta'),
                 ),
               ],
             ),

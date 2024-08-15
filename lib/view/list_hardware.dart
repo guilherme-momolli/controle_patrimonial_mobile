@@ -1,15 +1,17 @@
-import 'package:controle_patrimonial/GlobalDioConfig.dart';
+import 'package:controle_patrimonial/global_assets/global_dio_config.dart';
+import 'package:controle_patrimonial/global_assets/bottom_navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
-class ListarHardwareScreen extends StatefulWidget {
+class ListHardwareScreen extends StatefulWidget {
   @override
-  _ListarHardwareScreenState createState() => _ListarHardwareScreenState();
+  _ListHardwareScreenState createState() => _ListHardwareScreenState();
 }
 
-class _ListarHardwareScreenState extends State<ListarHardwareScreen> {
+class _ListHardwareScreenState extends State<ListHardwareScreen> {
   late Dio _dio;
   List<dynamic> hardwares = [];
+  final BottomNavigationManager bottomNavManager = BottomNavigationManager();
 
   @override
   void initState() {
@@ -38,7 +40,7 @@ class _ListarHardwareScreenState extends State<ListarHardwareScreen> {
       var response = await _dio.delete('/hardware/delete/$id');
       if (response.statusCode == 200) {
         print('Hardware deleted successfully.');
-        _getHardware(); 
+        _getHardware();
       } else {
         print('Failed to delete hardware. Status code: ${response.statusCode}');
       }
@@ -58,15 +60,27 @@ class _ListarHardwareScreenState extends State<ListarHardwareScreen> {
         itemBuilder: (context, index) {
           var hardware = hardwares[index];
           return ListTile(
-            title: Text(hardware['nome']),
-            subtitle: Text('ID: ${hardware['id']}'),
+            title: Text(hardware['codigo_patrimonial']),
+            subtitle: Text('id: ${hardware['id']}'
+                'componente: ${hardware['componente']}'
+                'numeroSerial: ${hardware['numeroSerial']}'
+                'velocidade: ${hardware['velocidade']}'
+                'fabricante: ${hardware['fabricante']}'
+                'capacidadeArmazenamento: ${hardware['capacidadeArmazenamento']}'
+                'dataFabricacao: ${hardware['dataFabricacao']}'
+                'precoTotal: ${hardware['precoTotal']}'
+                'estatus: ${hardware['estatus']}'),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 IconButton(
                   icon: Icon(Icons.edit),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.add_circle_outline),
                   onPressed: () {
-                    // Implement edit functionality here
+                    Navigator.pushNamed(context, '/create_hardware');
                   },
                 ),
                 IconButton(
@@ -79,6 +93,27 @@ class _ListarHardwareScreenState extends State<ListarHardwareScreen> {
             ),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/create_hardware');
+        },
+        tooltip: 'Adicionar novo hardware',
+        child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: bottomNavManager.buildBottomNavigationBar(context),
+    );
+  }
+
+  Widget card(
+      {required Widget title,
+      required Widget subtitle,
+      required Widget trailing}) {
+    return Card(
+      child: ListTile(
+        title: title,
+        subtitle: subtitle,
+        trailing: trailing,
       ),
     );
   }

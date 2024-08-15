@@ -1,11 +1,12 @@
-import 'package:controle_patrimonial/list_hardware.dart';
-import 'package:controle_patrimonial/list_usuario.dart';
-import 'package:controle_patrimonial/login.dart';
-import 'package:controle_patrimonial/main_home.dart';
-import 'package:controle_patrimonial/update_usuario.dart';
+import 'package:controle_patrimonial/view/create_hardware.dart';
+import 'package:controle_patrimonial/view/create_usuario.dart';
+import 'package:controle_patrimonial/view/list_hardware.dart';
+import 'package:controle_patrimonial/view/list_usuario.dart';
+import 'package:controle_patrimonial/view/login.dart';
+import 'package:controle_patrimonial/view/main_home.dart';
+import 'package:controle_patrimonial/view/update_usuario.dart';
 import 'package:flutter/material.dart';
-import 'package:controle_patrimonial/create_usuario.dart';
-import 'package:controle_patrimonial/GlobalDioConfig.dart';
+import 'package:controle_patrimonial/global_assets/global_dio_config.dart';
 
 void main() {
   GlobalDioConfig.configureDio();
@@ -21,17 +22,18 @@ class MyApp extends StatelessWidget {
       title: 'Controle Patrimonial',
       theme: ThemeData(
         colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 255, 0, 0)),
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(199, 0, 17, 255)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Controle Patrimonial'),
       routes: {
         '/login': (context) => LoginScreen(),
+        '/list_hardware': (context) => ListHardwareScreen(),
         '/list_usuario': (context) => ListarUsuarioScreen(),
-        '/list_hardware': (context) => ListarHardwareScreen(),
+        '/create_hardware': (context) => CreateHardwareScreen(),
         '/create_usuario': (context) => CreateUsuarioScreen(),
-        '/update_usuario': (context) => UpdateUsuarioScreen(),
-        '/main_home': (context) => MainHomeScreen()
+        '/main_home': (context) => MainHomeScreen(),
+        '/update_usuario': (context) => UpdateUsuarioScreen()
       },
     );
   }
@@ -65,8 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Row(
-              mainAxisAlignment: MainAxisAlignment
-                  .spaceEvenly, 
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
                   child: ElevatedButton(

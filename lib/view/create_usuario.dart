@@ -1,4 +1,4 @@
-import 'package:controle_patrimonial/GlobalDioConfig.dart';
+import 'package:controle_patrimonial/global_assets/global_dio_config.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 

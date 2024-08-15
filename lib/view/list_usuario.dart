@@ -1,6 +1,7 @@
+import 'package:controle_patrimonial/global_assets/bottom_navigation_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:controle_patrimonial/GlobalDioConfig.dart';
+import 'package:controle_patrimonial/global_assets/global_dio_config.dart';
 
 class ListarUsuarioScreen extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class ListarUsuarioScreen extends StatefulWidget {
 class _ListarUsuarioScreenState extends State<ListarUsuarioScreen> {
   late Dio _dio;
   List<dynamic> usuarios = [];
+  final BottomNavigationManager bottomNavManager = BottomNavigationManager();
 
   @override
   void initState() {
@@ -54,8 +56,7 @@ class _ListarUsuarioScreenState extends State<ListarUsuarioScreen> {
       final response = await _dio.get('/usuario/list',
           options: Options(headers: {'Accept': 'application/json'}));
       setState(() {
-        usuarios =
-            response.data;
+        usuarios = response.data;
       });
     } catch (e) {
       print(e);
@@ -114,6 +115,14 @@ class _ListarUsuarioScreenState extends State<ListarUsuarioScreen> {
           }
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/create_usuario');
+        },
+        tooltip: 'Adicionar novo usuário',
+        child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: bottomNavManager.buildBottomNavigationBar(context),
     );
   }
 
