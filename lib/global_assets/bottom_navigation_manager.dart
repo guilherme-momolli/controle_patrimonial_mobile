@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomNavigationManager extends ChangeNotifier {
@@ -19,14 +18,10 @@ class BottomNavigationManager extends ChangeNotifier {
         Navigator.pushNamed(context, 'main_home');
         break;
       case 1:
-        Navigator.pushNamed(context, '/list_usuario');
+        Navigator.pushNamed(context, '/settings_screen');
         break;
       case 2:
         Navigator.pushNamed(context, '/list_hardware');
-        break;
-      case 3:
-        // Navega para a tela de Nota Fiscal
-        // Certifique-se de ter a rota configurada corretamente no MaterialApp
         break;
       default:
         break;
@@ -39,7 +34,7 @@ class BottomNavigationManager extends ChangeNotifier {
         BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.house), label: 'Home'),
         BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.user), label: 'Usuario'),
+            icon: Icon(FontAwesomeIcons.gear), label: 'Configuração'),
         BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.computer), label: 'Hardware'),
       ],

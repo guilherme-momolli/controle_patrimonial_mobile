@@ -4,9 +4,12 @@ import 'package:controle_patrimonial/view/list_hardware.dart';
 import 'package:controle_patrimonial/view/list_usuario.dart';
 import 'package:controle_patrimonial/view/login.dart';
 import 'package:controle_patrimonial/view/main_home.dart';
+import 'package:controle_patrimonial/view/settings_screen.dart';
 import 'package:controle_patrimonial/view/update_usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:controle_patrimonial/global_assets/global_dio_config.dart';
+import 'package:provider/provider.dart';
+import 'package:controle_patrimonial/global_assets/theme_controller.dart';
 
 void main() {
   GlobalDioConfig.configureDio();
@@ -18,23 +21,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Controle Patrimonial',
-      theme: ThemeData(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(199, 0, 17, 255)),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (context) => ThemeController(),
+      child: Consumer<ThemeController>(
+        builder: (context, themeController, child) {
+          return MaterialApp(
+            title: 'Controle Patrimonial',
+            theme: themeController.themeData,
+            home: const MyHomePage(title: 'Controle Patrimonial'),
+            routes: {
+              '/login': (context) => LoginScreen(),
+              '/list_hardware': (context) => ListHardwareScreen(),
+              '/list_usuario': (context) => ListarUsuarioScreen(),
+              '/create_hardware': (context) => CreateHardwareScreen(),
+              '/create_usuario': (context) => CreateUsuarioScreen(),
+              '/main_home': (context) => MainHomeScreen(),
+              '/update_usuario': (context) => UpdateUsuarioScreen(),
+              '/settings_screen': (context) => SettingsScreen()
+            },
+          );
+        },
       ),
-      home: const MyHomePage(title: 'Controle Patrimonial'),
-      routes: {
-        '/login': (context) => LoginScreen(),
-        '/list_hardware': (context) => ListHardwareScreen(),
-        '/list_usuario': (context) => ListarUsuarioScreen(),
-        '/create_hardware': (context) => CreateHardwareScreen(),
-        '/create_usuario': (context) => CreateUsuarioScreen(),
-        '/main_home': (context) => MainHomeScreen(),
-        '/update_usuario': (context) => UpdateUsuarioScreen()
-      },
     );
   }
 }
