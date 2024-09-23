@@ -1,6 +1,6 @@
 import 'package:controle_patrimonial/global_assets/global_dio_config.dart';
-import 'package:controle_patrimonial/enum/componente.dart';
-import 'package:controle_patrimonial/enum/estatus.dart';
+import 'package:controle_patrimonial/model/enum/componente.dart';
+import 'package:controle_patrimonial/model/enum/estatus.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 

@@ -1,4 +1,5 @@
 import 'package:controle_patrimonial/global_assets/bottom_navigation_manager.dart';
+import 'package:controle_patrimonial/service/hardware_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:controle_patrimonial/global_assets/global_dio_config.dart';
@@ -13,17 +14,26 @@ class MainHomeScreen extends StatefulWidget {
 class _MainHomeScreenState extends State<MainHomeScreen> {
   late Dio _dio;
   final BottomNavigationManager bottomNavManager = BottomNavigationManager();
+  late HardwareService _hardwareService;
+
   List<dynamic> hardwares = [];
 
   @override
   void initState() {
     super.initState();
     _dio = GlobalDioConfig.instance;
+    //_hardwareService = HardwareService(GlobalDioConfig.instance);
     _getHardware();
   }
 
-  String safeText(String? text) {
-    return text ?? '';
+  String safeText(dynamic text) {
+    if (text is int) {
+      return text.toString();
+    } else if (text is String) {
+      return text;
+    } else {
+      return '';
+    }
   }
 
   Future<void> _getHardware() async {
@@ -33,8 +43,11 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
         setState(() {
           hardwares = response.data
               .map((dynamic hardware) => {
-                    'nome': safeText(hardware['nome']),
-                    'descricao': safeText(hardware['descricao'])
+                    'codigoPatrimonial':
+                        safeText(hardware['codigoPatrimonial']),
+                    'componente': safeText(hardware['componente']),
+                    'modelo': safeText(hardware['modelo']),
+                    'preco': safeText(hardware['precoTotal'])
                   })
               .toList();
         });
@@ -47,10 +60,14 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   }
 
   Future<List<dynamic>> _fetchhardware() async {
-    var response = await _dio.get('/usuario/list');
+    var response = await _dio.get('/hardware/list');
     return response.data
-        .map((dynamic usuario) =>
-            {'nome': usuario['nome'], 'descricao': usuario['descricao']})
+        .map((dynamic hardware) => {
+              'componente': hardware['componente'],
+              'codigoPatrimonial': hardware['codigoPatrimonial'],
+              'modelo': hardware['modelo'],
+              'precoTotal': hardware['precoTotal']
+            })
         .toList();
   }
 
@@ -67,8 +84,9 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
 
           return Card(
             child: ListTile(
-              title: Text(safeText(hardware['nome'])),
-              subtitle: Text(safeText(hardware['descricao'])),
+              title: Text(safeText(hardware['codigoPatrimonial'])),
+              subtitle: Text(
+                  '${safeText(hardware['componente'])}, ${safeText(hardware['modelo'])}, ${safeText(hardware['pretoTotal'])}'),
               trailing: Icon(Icons.more_horiz),
             ),
           );

@@ -1,3 +1,4 @@
+import 'package:controle_patrimonial/global_assets/bottom_navigation_manager.dart';
 import 'package:controle_patrimonial/view/create_hardware.dart';
 import 'package:controle_patrimonial/view/create_usuario.dart';
 import 'package:controle_patrimonial/view/list_hardware.dart';
@@ -21,15 +22,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ThemeController(),
-      child: Consumer<ThemeController>(
-        builder: (context, themeController, child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeController()),
+        ChangeNotifierProvider(create: (_) => BottomNavigationManager()),
+      ],
+      child: Consumer2<ThemeController, BottomNavigationManager>(
+        builder: (context, themeController, bottomNavManager, child) {
           return MaterialApp(
             title: 'Controle Patrimonial',
             theme: themeController.themeData,
-            home: const MyHomePage(title: 'Controle Patrimonial'),
+            initialRoute: '/',
             routes: {
+              '/': (context) => MyHomePage(title: 'Controle Patrimonial'),
               '/login': (context) => LoginScreen(),
               '/list_hardware': (context) => ListHardwareScreen(),
               '/list_usuario': (context) => ListarUsuarioScreen(),

@@ -8,7 +8,6 @@ import 'package:controle_patrimonial/view/main_home.dart';
 import 'package:controle_patrimonial/view/settings_screen.dart';
 import 'package:controle_patrimonial/view/update_usuario.dart';
 import 'package:flutter/material.dart';
-import 'package:controle_patrimonial/main.dart';
 import 'package:controle_patrimonial/view/login.dart';
 
 class RouteConfig {

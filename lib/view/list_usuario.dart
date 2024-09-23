@@ -122,7 +122,6 @@ class _ListarUsuarioScreenState extends State<ListarUsuarioScreen> {
         tooltip: 'Adicionar novo usuário',
         child: Icon(Icons.add),
       ),
-      bottomNavigationBar: bottomNavManager.buildBottomNavigationBar(context),
     );
   }
 
